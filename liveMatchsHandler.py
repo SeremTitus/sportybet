@@ -275,8 +275,8 @@ def matchJsonToDatabase(updateDb=False):
 def main():
     timestart = time()
     timeMinWatch = int(time("min"))
-    updateDb=False
-    updateInterval = 15
+    updateDb=False   
+    updateInterval = 5
     try:
         matchDatabase('createTable')
     except:
@@ -285,14 +285,14 @@ def main():
         print("Running FROM: "+timestart+" NOW: "+time())
         matchJsonToDatabase(updateDb)
         #manage time and updateDb
+        updateDb=False
         if time("min")<timeMinWatch:
             timeMinWatch = time("min")
         if time("min")>timeMinWatch:
             if (int(time("min"))-int(timeMinWatch))>updateInterval:
                 timeMinWatch = time("min")
                 updateDb = True                
-            else:
-                updateDb = False
+            
                 
         print("diff:"+str(int(time("min"))-int(timeMinWatch)))
         print(updateDb)

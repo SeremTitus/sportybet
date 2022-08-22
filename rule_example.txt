@@ -1,0 +1,48 @@
+....................................KEYWORDS/SYMBOLS..........................................................................
+>
+<
+==
+and &
+not ! ---> operators
+
+placeBet ---> to be placed dict
+pass
+break
+continue ---> flow control
+check{---> condition
+
+}else{
+
+}elif{
+
+}
+; ---> mark end
+
+...................................KEYVARIABLES......................................................................
+[league]   -str
+[country]  -str
+[teamName]  -str
+[homeName]  -str
+[awayName]  -str
+[setScore]  -str
+[scoreDiff] -int
+//[homeScore] -int
+//[awayScore] -int
+[winning]  -str
+[playedTimeRem] -int
+[playedTimeMin] -int
+//[playedTimeMinSec] -float
+[extratimerem]  -int
+[extratime] -bool
+[marketsDesc]  -str
+[outcomesDesc]  -str
+[getOdd] -float
+
+..............................................................................................................
+check([League]=="Liga MX"){
+    check([scoreDiff]>2){
+        [winning]
+    }
+
+    placeBet
+}{}

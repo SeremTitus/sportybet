@@ -276,7 +276,7 @@ def main():
     timestart = time()
     timeMinWatch = int(time("min"))
     updateDb=False   
-    updateInterval = 5
+    updateInterval = 15
     try:
         matchDatabase('createTable')
     except:

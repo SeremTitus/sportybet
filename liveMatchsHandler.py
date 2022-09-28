@@ -1,4 +1,5 @@
-from copyreg import constructor
+import os
+import sys
 import json
 import requests
 from datetime import datetime
@@ -81,7 +82,7 @@ def playedTimeCheck(playedSeconds ="00:00",out="rem"):
 
 def matchDatabase(instruction='',list ={},updateDb=False):
     table='matchshistory'
-    conn = sqlite3.connect('livematchs.db')
+    conn = sqlite3.connect(os.path.join(sys.path[0], "livematchs.db"))
     match instruction:
         case 'createTable':
             conn.execute('''CREATE TABLE '''+table+'''

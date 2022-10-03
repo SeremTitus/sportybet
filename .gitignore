@@ -2,3 +2,4 @@
 chromedriver.exe
 chromedriver
 livematchs.db
+__pycache__

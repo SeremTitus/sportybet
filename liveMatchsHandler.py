@@ -200,8 +200,8 @@ def matchJsonToDatabase(updateDb=False):
     try:
         response = requests.get(url = URL)
     except:
-        print('No internet')
-        return 0
+        print('No internet:base api 1')
+        return
     #raw extraction json
     data = json.loads((response.text))
     for data in data["data"]:
@@ -255,24 +255,28 @@ def matchJsonToDatabase(updateDb=False):
             try:
                 response_mk = requests.get(url = URL_mk)
             except:
-                print('No internet')
-                return             
+                print('No internet:based on api 2')
+                continue           
             #raw extraction json
-            data_mk = json.loads(response_mk.text)
-            for markets in data_mk["data"]["markets"]:
-                placeHolder_mk =""
-                if markets["desc"] == "1X2":
-                    for outcomes in markets["outcomes"]:
-                        st = json.dumps(outcomes)
-                        placeHolder_mk =placeHolder_mk + st +","
-                    toDb["out1X2"] = placeHolder_mk
+            try:
+                data_mk = json.loads(response_mk.text)
+                for markets in data_mk["data"]["markets"]:
                     placeHolder_mk =""
-                if markets["desc"] == "Over/Under":
-                    for outcomes in markets["outcomes"]:
-                        st = json.dumps(outcomes)
-                        placeHolder_mk =placeHolder_mk + st +","
-                toDb["outOverUnder"] = toDb["outOverUnder"] + placeHolder_mk 
-            matchDatabase('insert',toDb,updateDb=updateDb)
+                    if markets["desc"] == "1X2":
+                        for outcomes in markets["outcomes"]:
+                            st = json.dumps(outcomes)
+                            placeHolder_mk =placeHolder_mk + st +","
+                        toDb["out1X2"] = placeHolder_mk
+                        placeHolder_mk =""
+                    if markets["desc"] == "Over/Under":
+                        for outcomes in markets["outcomes"]:
+                            st = json.dumps(outcomes)
+                            placeHolder_mk =placeHolder_mk + st +","
+                    toDb["outOverUnder"] = toDb["outOverUnder"] + placeHolder_mk
+                    matchDatabase('insert',toDb,updateDb=updateDb)
+            except:
+                print('Json load response failed')
+            
 def main():
     timestart = time()
     timeMinWatch = int(time("min"))
@@ -283,21 +287,21 @@ def main():
     except:
         pass
     while True:
-        print("Running FROM: "+timestart+" NOW: "+time())
+        print("Running FROM: ", str(timestart)," NOW: "+str(time()))
         matchJsonToDatabase(updateDb)
+        print('database upadate existing entry:'+ str(updateDb)+' update entry every(min):'+str(updateInterval))
         #manage time and updateDb
         updateDb=False
-        if time("min")<timeMinWatch:
+        if int(time("min"))<int(timeMinWatch):
             timeMinWatch = time("min")
-        if time("min")>timeMinWatch:
+        if int(time("min"))>int(timeMinWatch):
             if (int(time("min"))-int(timeMinWatch))>updateInterval:
                 timeMinWatch = time("min")
                 updateDb = True                
             
                 
-        print("diff:"+str(int(time("min"))-int(timeMinWatch)))
-        print(updateDb)
-
+        print("MinutesTaken: "+str(int(time("min"))-int(timeMinWatch)))
+        
 
 if __name__ == "__main__":
     main()

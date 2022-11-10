@@ -3,6 +3,7 @@ import sys
 import os
 import  time
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 
 class easySelenium:
     options = webdriver.ChromeOptions()
@@ -16,13 +17,13 @@ class easySelenium:
     elif sys.platform == 'win32':   
         driver_location =os.path.join(sys.path[0], "chromedriver.exe")
         options.add_argument("user-data-dir="+str(chrome_data))
-    browser:any
+    browser=any
     firstTabSet:bool = False
     isBrowserOff:bool = False
     def __init__(self,headerless:bool=False) -> None:
         self.options.headless = headerless
         self.browser = webdriver.Chrome(executable_path=self.driver_location,options=self.options)
-    def isExist(self,by='By.XPATH',xpath:str =""):
+    def isExist(self,xpath:str ="",by='By.XPATH'):
         '''
         'by' parameter can satisfied with:
         [
@@ -38,14 +39,30 @@ class easySelenium:
 
         '''
         try:
-            self.browser.find_element(by=by,value = xpath)
+            match by:
+                case 'By.XPATH':
+                    self.browser.find_element(By.XPATH,xpath)
+                case 'By.NAME':
+                    self.browser.find_element(By.NAME,xpath)
+                case 'By.LINK_TEXT':
+                    self.browser.find_element(By.LINK_TEXT,xpath)
+                case 'By.CLASS_NAME':
+                    self.browser.find_element(By.CLASS_NAME,xpath)
+                case 'By.CSS_SELECTOR':
+                    self.browser.find_element(By.CSS_SELECTOR,xpath)
+                case 'By.PARTIAL_LINK_TEXT':
+                    self.browser.find_element(By.PARTIAL_LINK_TEXT,xpath)
+                case 'By.ID':
+                    self.browser.find_element(By.ID,xpath)
+                case 'By.TAG_NAME':
+                    self.browser.find_element(By.TAG_NAME,xpath)
             return True
         except:
             return False
-    def waitUntillExist(self,by='By.XPATH',xpath:str ="",timeout:int=600,inbetweenSleep:int = 0):
+    def waitUntillExist(self,xpath:str ="",by='By.XPATH',timeout:int=600,inbetweenSleep:int = 0):
         clock:int=0
         while True:
-            if self.isExist(by=by,xpath=xpath):
+            if self.isExist(xpath=xpath,by=by):
                 return True
             else:
                 ##Rough clock for timeout//could be done better

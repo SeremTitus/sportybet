@@ -72,6 +72,32 @@ class easySelenium:
                     return False
                 ##                
                 time.sleep(inbetweenSleep)
+    def waitForUrl(self,url:str ="",by='By.XPATH',timeout:int=600,inbetweenSleep:int = 0):
+        clock:int=0
+        while True:
+            if str(self.browser.current_url) == str(url):
+                return True
+            else:
+                ##Rough clock for timeout//could be done better
+                time.sleep(1)
+                clock += 1
+                if clock >= timeout:
+                    return False
+                ##                
+                time.sleep(inbetweenSleep)
+    def waitForUrlChange(self,url:str ="",by='By.XPATH',timeout:int=600,inbetweenSleep:int = 0):
+        clock:int=0
+        while True:
+            if not(str(self.browser.current_url) == str(url)):
+                return True
+            else:
+                ##Rough clock for timeout//could be done better
+                time.sleep(1)
+                clock += 1
+                if clock >= timeout:
+                    return False
+                ##                
+                time.sleep(inbetweenSleep)
     def switchTab(self,tab:int=0)  -> None:
        self.browser.switch_to.window(self.browser.window_handles[tab])
     def scroll(self,timeout:int=120,pageloadSleep:int=5)  -> None:
@@ -89,6 +115,26 @@ class easySelenium:
             clock += pageloadSleep
             if clock >= timeout:
                 break            ##
+    def isInternetON(self):
+        import urllib.request
+        try:
+            urllib.request.urlopen('http://google.com')
+            return True
+        except:
+            return False
+    def waitForInternet(self,timeout:int=600,inbetweenSleep:int = 0):
+        clock:int=0
+        while True:
+            if self.isInternetON():
+                return True
+            else:
+                ##Rough clock for timeout//could be done better
+                time.sleep(1)
+                clock += 1
+                if clock >= timeout:
+                    return False
+                ##                
+                time.sleep(inbetweenSleep)
     def free(self) -> None:
         self.browser.quit()
         self.isBrowserOff = True

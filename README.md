@@ -1,2 +1,2 @@
 # sportybet
-just a bet bot
+just a betting bot (under ,atleast sometimes, development)

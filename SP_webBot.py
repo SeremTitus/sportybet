@@ -6,7 +6,7 @@ from easySelenium import easySelenium
 
 
 class sp(easySelenium):
-    def __init__(self,headerless =False, username ='0746336315', password ='acc1youtube'):
+    def __init__(self,headerless =False, username ='', password =''):
         self.username = username
         self.password = password
         super().__init__(headerless)
